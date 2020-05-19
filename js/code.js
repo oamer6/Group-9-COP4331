@@ -203,7 +203,7 @@ function searchContact()
 	
 	readCookie();
 	
-	var jsonPayload = '{"UserID" : '" + userId + '", "Firstname" :"'+ firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" :"'+ phoneNumber + '", "email" : "' + email + '", "city" :"'+ city + '", "state" : "' + state + '", "zip" :"'+ zip + '", "country" : "' + country + '"}';;
+	var jsonPayload = '{"UserID" : '" + userId + '", "Firstname" :"'+ firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" :"'+ phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + dateCreated + '"}';
 	var url = urlBase + '/SearchContacts.' + extension;
 	
 	/*

@@ -13,24 +13,15 @@ function doLogin()
 	
 	var login = document.getElementById("loginName").value;
 	
-	alert(login); // do not leave this in! Prof will have a heart attack! For testing, only!
-	
 	var password = document.getElementById("loginPassword").value;
-	
-	alert(password); // do not leave this in! Prof will have a heart attack! For testing, only!
 
 	var hash = md5( password ); // password is hashed
-
-	alert(hash); // do not leave this in! Prof will have a heart attack! For testing, only!
 	
 	document.getElementById("loginResult").innerHTML = "";
 
 	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 //	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
 	var url = urlBase + '/Login.' + extension;
-
-	/*
-	COMMENTED OUT UNTIL BACK END IMPLEMENTED
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
@@ -60,7 +51,6 @@ function doLogin()
 	{
 		document.getElementById("loginResult").innerHTML = err.message;
 	}
-	*/
 }
 
 function saveCookie()
@@ -158,19 +148,14 @@ function addContact()
 	var lastName = document.getElementById("lastName").value;
 	var phoneNumber = document.getElementById("phoneNumber").value;
 	var email = document.getElementById("email").value;
-	var city = document.getElementById("city").value;
-	var state = document.getElementById("state").value;
-	var zip = document.getElementById("zip").value;
-	var country = document.getElementById("country").value;
+
 	readCookie();
 	
 	locationReload();
 	
-	var jsonPayload = '{"UserID" : '" + userId + '", "Firstname" :"'+ firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" :"'+ phoneNumber + '", "email" : "' + email + '", "city" :"'+ city + '", "state" : "' + state + '", "zip" :"'+ zip + '", "country" : "' + country + '"}';
+	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + dateCreated + '"}';
 	var url = urlBase + '/AddContact.' + extension;
 	
-	/*
-	COMMENTED OUT UNTIL BACK END IMPLEMENTED
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -190,20 +175,55 @@ function addContact()
 	{
 		document.getElementById("contactAddResult").innerHTML = err.message;
 	}
-	*/
 }
 
 function searchContact()
 {
-	firstName = document.getElementById("firstName").value;
-	lastName = "";
-	phone = "";
-	
+	var srch = document.getElementById("searchText").value;
+	document.getElementById("contactSearchResult").innerHTML = "";
+
 	var contactList = "";
 	
+	var jsonPayload = '{"search" : "' + srch + '","userId" : ' + userId + '}';
+	var url = urlBase + '/SearchContacts.' + extension;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				document.getElementById("searchContactsResult").innerHTML = "Contact has been retrieved";
+				var jsonObject = JSON.parse(xhr.responseText);
+				
+				for (var i = 0; i < jsonObject.results.length; i++)
+				{
+					contactList += jsonObject.results[i];
+					if( i < jsonObject.results.length - 1 )
+					{
+						contactList += "<br />\r\n";
+					}
+				}
+				
+				document.getElementsByTagName("p")[0].innerHTML = contactList;
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("searchContactsResult").innerHTML = err.message;
+	}
+}	
+
+function showAllContacts()
+{
 	readCookie();
 	
-	var jsonPayload = '{"UserID" : '" + userId + '", "Firstname" :"'+ firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" :"'+ phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + dateCreated + '"}';
+	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + dateCreated + '"}';
 	var url = urlBase + '/SearchContacts.' + extension;
 	
 	/*
@@ -240,4 +260,4 @@ function searchContact()
 		document.getElementById("searchContactsResult").innerHTML = err.message;
 	}
 	*/
-}	
+}

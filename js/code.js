@@ -144,6 +144,7 @@ function addUser()
 
 function addContact()
 {
+	var userID = document.getElementById("userID").value;
 	var firstName = document.getElementById("firstNme").value;
 	var lastName = document.getElementById("lastName").value;
 	var phoneNumber = document.getElementById("phoneNumber").value;
@@ -180,7 +181,10 @@ function addContact()
 function searchContact()
 {
 	var srch = document.getElementById("searchText").value;
+	var userID = document.getElementById("userID").value;
 	document.getElementById("contactSearchResult").innerHTML = "";
+	
+	readCookie();
 
 	var contactList = "";
 	
@@ -221,13 +225,18 @@ function searchContact()
 
 function showAllContacts()
 {
+	// change this so that it searches for an empty string
+	
+	var srch = document.getElementById("searchText").value;
+	var userID = document.getElementById("userID").value;
+	document.getElementById("contactSearchResult").innerHTML = "";
+	
 	readCookie();
+
+	var contactList = "";
 	
-	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + dateCreated + '"}';
+	var jsonPayload = '{"search" : "' + srch + '","userId" : ' + userId + '}';
 	var url = urlBase + '/SearchContacts.' + extension;
-	
-	/*
-	COMMENTED OUT UNTIL BACK END IMPLEMENTED
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -259,5 +268,4 @@ function showAllContacts()
 	{
 		document.getElementById("searchContactsResult").innerHTML = err.message;
 	}
-	*/
 }

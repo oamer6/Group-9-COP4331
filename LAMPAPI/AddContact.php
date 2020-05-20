@@ -5,7 +5,7 @@
 	$userId = $inData["userID"];
 
 	// Verify these credentials
-	$conn = new mysqli("localhost", "groupnum_leinecker", "L33tNyne!", "groupnum_COP4331");
+	$conn = new mysqli("localhost", "groupnum_groupnine", "L33tNyne!", "groupnum_COP4331");
 	if ($conn->connect_error) 
 	{
 		returnWithError( $conn->connect_error );

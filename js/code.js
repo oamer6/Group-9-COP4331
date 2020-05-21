@@ -130,9 +130,6 @@ function addUser()
 	var jsonPayload = '{"Firstname" :"'+ firstName + '", "Lastname" : "' + lastName + '", "Username" : "' + username + '", "Password" : "' + hash + '"}';
 	var url = urlBase + '/AddUser.' + extension;
 	
-	/*
-	COMMENTED OUT UNTIL BACK END IMPLEMENTED
-	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -151,7 +148,6 @@ function addUser()
 	{
 		document.getElementById("userAddResult").innerHTML = err.message;
 	}
-	*/
 }
 
 function addContact()
@@ -166,7 +162,7 @@ function addContact()
 	
 	locationReload();
 	
-	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toGMTString()'"}';
+	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toGMTString() + '"}';
 	var url = urlBase + '/AddContact.' + extension;
 	
 	
@@ -279,4 +275,14 @@ function showAllContacts()
 	{
 		document.getElementById("searchContactsResult").innerHTML = err.message;
 	}
+}
+
+function removeContact()
+{
+	
+}
+
+function updateContact()
+{
+	
 }

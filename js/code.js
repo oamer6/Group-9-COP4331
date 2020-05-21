@@ -166,7 +166,7 @@ function addContact()
 	
 	locationReload();
 	
-	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + dateCreated + '"}';
+	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toGMTString()'"}';
 	var url = urlBase + '/AddContact.' + extension;
 	
 	

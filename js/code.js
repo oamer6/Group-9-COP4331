@@ -13,7 +13,19 @@ function doLogin()
 	
 	var login = document.getElementById("loginName").value;
 	
+	if(login.length == 0)
+	{
+		document.getElementById("loginResult").innerHTML = "You Need A Login Name";
+		return;
+	}
+	
 	var password = document.getElementById("loginPassword").value;
+	
+	if(password.length == 0)
+	{
+		document.getElementById("loginResult").innerHTML = "You Need A Password";
+		return;
+	}
 
 	var hash = md5( password ); // password is hashed
 	
@@ -225,9 +237,8 @@ function searchContact()
 
 function showAllContacts()
 {
-	// change this so that it searches for an empty string
+	// modify search function so that it searches for an empty string
 	
-	var srch = document.getElementById("searchText").value;
 	var userID = document.getElementById("userID").value;
 	document.getElementById("contactSearchResult").innerHTML = "";
 	
@@ -235,7 +246,7 @@ function showAllContacts()
 
 	var contactList = "";
 	
-	var jsonPayload = '{"search" : "' + srch + '","userId" : ' + userId + '}';
+	var jsonPayload = '{"search" : "' + null + '","userId" : ' + userId + '}'; // search for null
 	var url = urlBase + '/SearchContacts.' + extension;
 	
 	var xhr = new XMLHttpRequest();

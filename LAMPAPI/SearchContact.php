@@ -18,7 +18,7 @@
 		// JSON body argument via ARC:
 		// {
 		//   "userId" : *Some number*,
-		//   "search" : "*Some characer or string"
+		//   "search" : "*Some characer or string*"
 		// }
 		//
 		$sql = "select firstName from Contacts where firstName like '%" . $inData["search"] . "%' and UserID=" . $inData["userId"];

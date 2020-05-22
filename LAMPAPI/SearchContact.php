@@ -13,7 +13,15 @@
 	} 
 	else
 	{
-		$sql = "select Name from Contacts where FirstName like '%" . $inData["search"] . "%' and UserID=" . $inData["userID"];
+		// This statement looks up a Contact from the database that either matches or begins with 
+		// the subsequent character or string.
+		// JSON body argument via ARC:
+		// {
+		//   "userId" : *Some number*,
+		//   "search" : "*Some characer or string"
+		// }
+		//
+		$sql = "select firstName from Contacts where firstName like '%" . $inData["search"] . "%' and UserID=" . $inData["userId"];
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0)
 		{
@@ -24,7 +32,7 @@
 					$searchResults .= ",";
 				}
 				$searchCount++;
-				$searchResults .= '"' . $row["Name"] . '"';
+				$searchResults .= '"' . $row["firstName"] . '"';
 			}
 		}
 		else
@@ -49,7 +57,7 @@
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"FirstName":"","LastName":"","error":"' . $err . '"}';
+		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 	

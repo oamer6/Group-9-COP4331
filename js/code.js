@@ -12,22 +12,20 @@ function doLogin()
 	lastName = "";
 	
 	var login = document.getElementById("loginName").value;
-	
 	if(login.length == 0)
 	{
-		document.getElementById("loginResult").innerHTML = "You Need A Login Name";
+		document.getElementById("loginResult").innerHTML = "Username field is required";
 		return;
 	}
 	
 	var password = document.getElementById("loginPassword").value;
-	
 	if(password.length == 0)
 	{
-		document.getElementById("loginResult").innerHTML = "You Need A Password";
+		document.getElementById("loginResult").innerHTML = "Password field is required";
 		return;
 	}
 
-	var hash = md5( password ); // password is hashed
+	var hash = md5(password); // password is hashed
 	
 	document.getElementById("loginResult").innerHTML = "";
 
@@ -42,13 +40,13 @@ function doLogin()
 	{
 		xhr.send(jsonPayload);
 		
-		var jsonObject = JSON.parse( xhr.responseText );
+		var jsonObject = JSON.parse(xhr.responseText);
 		
 		userId = jsonObject.id;
 		
-		if( userId < 1 )
+		if (userId < 1)
 		{
-			document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+			document.getElementById("loginResult").innerHTML = "Username/Password combination incorrect";
 			return;
 		}
 		
@@ -70,7 +68,7 @@ function saveCookie()
 	var minutes = 20;
 	var date = new Date();
 	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toUTCString();
 }
 
 function readCookie()
@@ -109,7 +107,7 @@ function readCookie()
 function doLogout()
 {
 	// clear the cookie
-	
+
 	userId = 0;
 	firstName = "";
 	lastName = "";
@@ -119,15 +117,15 @@ function doLogout()
 
 function addUser()
 {
-	var firstName = document.getElementById("firstNme").value;
+	var firstName = document.getElementById("firstName").value;
 	var lastName = document.getElementById("lastName").value;
 	var username = document.getElementById("newUsername").value;
 	var password = document.getElementById("newPassword").value;
-	var hash = md5( password );
+	var hash = md5(password);
 	
 	document.getElementById("addUserResult").innerHTML = "";
 	
-	var jsonPayload = '{"Firstname" :"'+ firstName + '", "Lastname" : "' + lastName + '", "Username" : "' + username + '", "Password" : "' + hash + '"}';
+	var jsonPayload = '{"Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Username" : "' + username + '", "Password" : "' + hash + '"}';
 	var url = urlBase + '/AddUser.' + extension;
 	
 	var xhr = new XMLHttpRequest();
@@ -157,12 +155,13 @@ function addContact()
 	var lastName = document.getElementById("lastName").value;
 	var phoneNumber = document.getElementById("phoneNumber").value;
 	var email = document.getElementById("email").value;
+	var date = new Date();
 
 	readCookie();
 	
 	locationReload();
 	
-	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toGMTString() + '"}';
+	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
 	var url = urlBase + '/AddContact.' + extension;
 	
 	

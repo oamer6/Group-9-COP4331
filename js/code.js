@@ -151,7 +151,7 @@ function addUser()
 function addContact()
 {
 	var userID = document.getElementById("userID").value;
-	var firstName = document.getElementById("firstNme").value;
+	var firstName = document.getElementById("firstName").value;
 	var lastName = document.getElementById("lastName").value;
 	var phoneNumber = document.getElementById("phoneNumber").value;
 	var email = document.getElementById("email").value;
@@ -313,7 +313,7 @@ function removeContact(id)
 function updateContact(id)
 {
 	var userID = document.getElementById("userID").value;
-	var firstName = document.getElementById("firstNme").value;
+	var firstName = document.getElementById("firstName").value;
 	var lastName = document.getElementById("lastName").value;
 	var phoneNumber = document.getElementById("phoneNumber").value;
 	var email = document.getElementById("email").value;

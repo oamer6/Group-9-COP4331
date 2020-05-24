@@ -4,53 +4,64 @@
 	<title>My Contact Manager</title>
 	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
-	<!-- I also added Bootstrap online stylesheet for later touch up on the front end-->
+	<!-- I also added Bootstrap online stylesheet for later touch up on the front end -->
+	<!-- Use boostrap's button class since our stylesheet doesn't have a button customization yet-->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="css/styles.css" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body>
-	<h1 id="title">My Contact Manager</h1>
+	<div id="siteHeader">
+		<h1 id="title">My Contact Manager</h1>
+		<hr>
+	</div>
 
 	<div id="loggedInDiv">
-		<span id="userName"></span><br />
-		<!-- Use boostrap's button class since our stylesheet doesn't have a button customization yet-->
+    	<span id="userName"></span><br /> <!-- read firstName and lastName from cookie and display it here -->
 		<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
 	</div>
+
 	<div id="accessUIDiv">
-		<br />
+		<!-- search contact -->
+		<div id="searchDiv">
+			<br />
+			<h3 id="searchHeader"> Search for Contact </h3>
+			<input type="text" id="searchText" placeholder="Contact To Search For"/>
+			<button type="button" id="searchButton" class="buttons" onclick="searchContact();"> Search Contact </button><br />
+			<span id="searchContactResult"></span>
+			<p id="contactList">
+			</p>
+		</div>
 
-		<input type="text" id="searchText" placeholder="Contact To Search For"/>
-		<button type="button" id="searchContactButton" class="buttons" onclick="searchContact();"> Search Contact </button><br />
-		<span id="contactSearchResult"></span>
-		<p id="contactList">
-		</p><br /><br />
-
-		<!-- for add contact-->
+		<!-- add contact-->
 		<form>
-		  <div class="form-row">
-			<div class="form-group col-md-6">
-			  <label for="firstName">First Name</label>
-			  <input type="text" class="form-control" id="firstName" placeholder="Their first name">
+			<br />
+			<h3 id="addContactHeader"> Add New Contact </h3>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="firstName">First Name</label>
+					<input type="text" class="form-control" id="firstName" placeholder="enter their first name">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="lastName">Last Name</label>
+					<input type="text" class="form-control" id="lastName" placeholder="enter their last name">
+				</div>
 			</div>
-			<div class="form-group col-md-6">
-			  <label for="lastName">Last Name</label>
-			  <input type="text" class="form-control" id="lastName" placeholder="Their last name">
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="email">Email</label>
+					<input type="email" class="form-control" id="email" placeholder="enter their email address">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="phoneNumber">Phone Number</label>
+					<input type="text" class="form-control" id="phoneNumber" placeholder="enter their phone number">
+				</div>
 			</div>
-		  </div>
-		  <div class="form-row">
-			<div class="form-group col-md-6">
-			  <label for="email">Email</label>
-			  <input type="email" class="form-control" id="email" placeholder="Their email address">
-			</div>
-			<div class="form-group col-md-6">
-			  <label for="phoneNumber">Phone Number</label>
-			  <input type="text" class="form-control" id="phoneNumber" placeholder="Their phone number">
-			</div>
-		  </div>
-		
-		<button type="button" id="addContactButton" class="buttons" onclick="addContact();"> Add Contact </button><br />
-		<span id="contactAddResult"></span>
+			
+			<button type="button" id="addContactButton" class="buttons" onclick="addContact();"> Add Contact </button>
+			<br />
+			<span id="addContactResult"></span>
 		</form>
 	</div>
 

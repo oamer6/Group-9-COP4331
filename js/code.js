@@ -56,7 +56,6 @@ function doLogin()
 		saveCookie(); // store login info in a cookie
 	
 		window.location.href = "contact.html"; // open the next page
-		readCookie();	// read cookie to display name at top of page
 	}
 	catch(err)
 	{
@@ -70,7 +69,6 @@ function saveCookie()
 	var date = new Date();
 	date.setTime(date.getTime()+(minutes*60*1000));	
 	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toUTCString();
-	alert("saved this cookie: " + document.cookie);		// DEBUG !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 function readCookie()
@@ -102,9 +100,9 @@ function readCookie()
 	}
 	else
 	{
+		// displays/updates username at top of page
 		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
 	}
-	alert("from reading this cookie: "+document.cookie +"\nwe got this data:\nfirstName="+firstName +"\nlastName="+lastName +"\nuserId="+userId);	// DEBUG !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 function doLogout()

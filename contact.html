@@ -18,7 +18,8 @@
 	</div>
 
 	<div id="loggedInDiv">
-    	<span id="userName"></span><br /> <!-- read firstName and lastName from cookie and display it here -->
+		<span id="userName"></span><br />
+		<script>readCookie();</script> <!-- calls .js function to read cookie, thus displaying firstName and lastName at top of page -->
 		<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
 	</div>
 

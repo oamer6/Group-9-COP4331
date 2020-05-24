@@ -34,7 +34,7 @@ function doLogin()
 	var url = urlBase + '/Login.' + extension;
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, false);
+	xhr.open("POST", url, false); // POST, not asynchronous
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -129,7 +129,7 @@ function addUser()
 	var url = urlBase + '/AddUser.' + extension;
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
+	xhr.open("POST", url, true); // POST, asynchronous
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -151,7 +151,7 @@ function addUser()
 function addContact()
 {
 	var userID = document.getElementById("userID").value;
-	var firstName = document.getElementById("firstNme").value;
+	var firstName = document.getElementById("firstName").value;
 	var lastName = document.getElementById("lastName").value;
 	var phoneNumber = document.getElementById("phoneNumber").value;
 	var email = document.getElementById("email").value;
@@ -161,12 +161,12 @@ function addContact()
 	
 	locationReload();
 	
-	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
+	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
 	var url = urlBase + '/AddContact.' + extension;
 	
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
+	xhr.open("POST", url, true); // POST, asynchronous
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -199,7 +199,7 @@ function searchContact()
 	var url = urlBase + '/SearchContacts.' + extension;
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
+	xhr.open("POST", url, true); // POST, asynchronous
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -234,6 +234,7 @@ function showAllContacts()
 {
 	// modify search function so that it searches for an empty string
 	
+	
 	var userID = document.getElementById("userID").value;
 	document.getElementById("contactSearchResult").innerHTML = "";
 	
@@ -245,7 +246,7 @@ function showAllContacts()
 	var url = urlBase + '/SearchContacts.' + extension;
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
+	xhr.open("POST", url, true); // POST, asynchronous
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -276,12 +277,72 @@ function showAllContacts()
 	}
 }
 
-function removeContact()
+function removeContact(id)
 {
+	readCookie();
 	
+	var prompt = confirm("Are you sure that you want to delete this contact?");
+	if(prompt)
+	{
+		var jsonPayload = '{"id" : "' + id + '"}';
+		var url = urlBase + '/DeleteContact.' + extension;
+
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", url, true); // POST, asynchronous
+		xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+		try
+		{
+			xhr.onreadystatechange = function() 
+			{
+				if (this.readyState == 4 && this.status == 200) 
+				{
+					document.getElementById("addUserResult").innerHTML = "User has been deleted";
+				}
+			};
+			xhr.send(jsonPayload);
+			location.reload();
+		}
+		catch(err)
+		{
+			document.getElementById("removeContactResult").innerHTML = err.message;
+		}
+	}
 }
 
-function updateContact()
+function updateContact(id)
 {
+	var userID = document.getElementById("userID").value;
+	var firstName = document.getElementById("firstName").value;
+	var lastName = document.getElementById("lastName").value;
+	var phoneNumber = document.getElementById("phoneNumber").value;
+	var email = document.getElementById("email").value;
+	var date = new Date();
+
+	readCookie();
 	
+	locationReload();
+	
+	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
+	var url = urlBase + '/UpdateContact.' + extension;
+
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true); // POST, asynchronous
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("updateContactResult").innerHTML = "Contact has been updated";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("updateContactResult").innerHTML = err.message;
+	}
 }

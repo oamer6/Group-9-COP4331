@@ -1,10 +1,14 @@
 <?php
 	$inData = getRequestInfo();
 	
-	$contacts = $inData["Contacts"];
-	$userId = $inData["userID"];
+	$userId = $inData["userId"];
+	$firstName = $inData["firstName"];
+	$lastName = $inData["lastName"];
+	$phoneNum = $inData["phoneNum"];
+	$email = $inData["email"];
+	$dateCreated = $inData["dateCreated"];
+	
 
-	// Verify these credentials
 	$conn = new mysqli("localhost", "groupnum_groupnine", "L33tNyne!", "groupnum_COP4331");
 	if ($conn->connect_error) 
 	{
@@ -12,7 +16,7 @@
 	} 
 	else
 	{
-		$sql = "insert into Contacts (UserID,FirstName) VALUES (" . $userId . ",'" . $contacts . "')";
+		$sql = "INSERT INTO `Contacts`(`UserID`, `FirstName`, `LastName`, `PhoneNum`, `Email`, `DateCreated`) VALUES ('" . $userId . "', '" . $firstName . "', '" . $lastName . "', '" . $phoneNum . "', '" . $email . "', '" . $dateCreated . "')";
 		if( $result = $conn->query($sql) != TRUE )
 		{
 			returnWithError( $conn->error );

@@ -56,6 +56,7 @@ function doLogin()
 		saveCookie(); // store login info in a cookie
 	
 		window.location.href = "contact.html"; // open the next page
+		readCookie();	// read cookie to display name at top of page
 	}
 	catch(err)
 	{

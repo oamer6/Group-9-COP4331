@@ -33,16 +33,18 @@
 				}
 				$searchCount++;
 				$searchResults .= '"' . $row["firstName"] . '"';
+				
+				returnWithInfo( $searchResults );
 			}
 		}
 		else
 		{
-			returnWithError( "No Records Found" );
+			returnNotFound();
 		}
 		$conn->close();
 	}
 
-	returnWithInfo( $searchResults );
+	
 
 	function getRequestInfo()
 	{
@@ -51,14 +53,20 @@
 
 	function sendResultInfoAsJson( $obj )
 	{
-		header('Content-type: application/json');
-		echo $obj;
+        header('Content-Type: application/json');
+        echo $obj;
 	}
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
+	}
+	
+	function returnNotFound()
+	{
+	    $retValue = '{"error":1}';
+        sendResultInfoAsJson( $retValue );
 	}
 	
 	function returnWithInfo( $searchResults )

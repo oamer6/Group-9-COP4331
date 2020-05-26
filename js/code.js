@@ -193,6 +193,11 @@ function searchContact()
 {
 	// works
 	var srch = document.getElementById("searchText").value;
+	if(srch == "")
+	{
+		document.getElementById("searchContactResult").innerHTML = "Please enter a contact to search for";
+		return;
+	}
 	document.getElementById("searchContactResult").innerHTML = "";
 	
 	readCookie();
@@ -211,9 +216,14 @@ function searchContact()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("searchContactResult").innerHTML = "Contact(s) retrieved";
 				var jsonObject = JSON.parse(xhr.responseText);
 				
+				if (jsonObject.error == 1)
+				{
+					document.getElementById("searchContactResult").innerHTML = "Not found";
+					return;
+				}
+				document.getElementById("searchContactResult").innerHTML = "Contact(s) retrieved";
 				for (var i = 0; i < jsonObject.results.length; i++)
 				{
 					contactList += jsonObject.results[i];
@@ -233,51 +243,6 @@ function searchContact()
 		document.getElementById("searchContactResult").innerHTML = err.message;
 	}
 }	
-
-function showAllContacts()
-{
-	// modify search function so that it searches for an empty string
-
-	document.getElementById("searchContactResult").innerHTML = "";
-	
-	readCookie();
-
-	var contactList = "";
-	
-	var jsonPayload = '{"search" : "' + null + '","userId" : ' + userId + '}'; // search for null
-	var url = urlBase + '/SearchContact.' + extension;
-	
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true); // POST, asynchronous
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function()
-		{
-			if (this.readyState == 4 && this.status == 200)
-			{
-				document.getElementById("searchContactResult").innerHTML = "Contact(s) retrieved";
-				var jsonObject = JSON.parse(xhr.responseText);
-				
-				for (var i = 0; i < jsonObject.results.length; i++)
-				{
-					contactList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						contactList += "<br />\r\n";
-					}
-				}
-				
-				document.getElementById("contactList").innerHTML = contactList;
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("searchContactResult").innerHTML = err.message;
-	}
-}
 
 function removeContact(id)
 {

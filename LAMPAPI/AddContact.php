@@ -1,10 +1,10 @@
 <?php
 	$inData = getRequestInfo();
 	
-	$userId = $inData["userId"];
-	$firstName = $inData["firstName"];
-	$lastName = $inData["lastName"];
-	$phoneNum = $inData["phoneNum"];
+	$userId = $inData["UserID"];
+	$firstName = $inData["Firstname"];
+	$lastName = $inData["Lastname"];
+	$phoneNum = $inData["Phonenumber"];
 	$email = $inData["email"];
 	$dateCreated = $inData["dateCreated"];
 	
@@ -16,11 +16,16 @@
 	} 
 	else
 	{
-		$sql = "INSERT INTO `Contacts`(`UserID`, `FirstName`, `LastName`, `PhoneNum`, `Email`, `DateCreated`) VALUES ('" . $userId . "', '" . $firstName . "', '" . $lastName . "', '" . $phoneNum . "', '" . $email . "', '" . $dateCreated . "')";
+		$sql = 'INSERT INTO Contacts 
+                (`UserID`,`FirstName`,`LastName`,`PhoneNum`,`Email`, `DateCreated`) 
+                VALUES 
+                ("'.$userId.'", "'.$firstName.'", "'.$lastName.'", "'.$phoneNum.'", "'.$email.'", "'.$dateCreated.'")';
+		
 		if( $result = $conn->query($sql) != TRUE )
 		{
 			returnWithError( $conn->error );
 		}
+		
 		$conn->close();
 	}
 	

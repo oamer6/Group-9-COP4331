@@ -2,6 +2,7 @@ var urlBase = 'http://COP4331-9.us/LAMPAPI';
 var extension = 'php';
 
 var userId = 0;
+var contactId = 0;
 var firstName = "";
 var lastName = "";
 
@@ -244,14 +245,14 @@ function searchContact()
 	}
 }	
 
-function removeContact(id)
+function removeContact()
 {
 	readCookie();
 	
 	var prompt = confirm("Are you sure that you want to delete this contact?");
 	if(prompt)
 	{
-		var jsonPayload = '{"id" : "' + id + '"}';
+		var jsonPayload = '{"ContactID" : "' + ContactId + '"}';
 		var url = urlBase + '/RemoveContact.' + extension;
 
 		var xhr = new XMLHttpRequest();
@@ -276,7 +277,7 @@ function removeContact(id)
 	}
 }
 
-function updateContact(id)
+function updateContact()
 {
 	var firstName = document.getElementById("firstName").value;
 	var lastName = document.getElementById("lastName").value;
@@ -288,7 +289,7 @@ function updateContact(id)
 	
 	locationReload();
 	
-	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
+	var jsonPayload = '{"ContactID" : "' + ContactId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
 	var url = urlBase + '/UpdateContact.' + extension;
 
 	

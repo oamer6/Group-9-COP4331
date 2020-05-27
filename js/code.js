@@ -252,7 +252,7 @@ function removeContact()
 	var prompt = confirm("Are you sure that you want to delete this contact?");
 	if(prompt)
 	{
-		var jsonPayload = '{"ContactID" : "' + ContactId + '"}';
+		var jsonPayload = '{"ContactID" : "' + contactId + '"}';
 		var url = urlBase + '/RemoveContact.' + extension;
 
 		var xhr = new XMLHttpRequest();
@@ -289,7 +289,7 @@ function updateContact()
 	
 	locationReload();
 	
-	var jsonPayload = '{"ContactID" : "' + ContactId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
+	var jsonPayload = '{"ContactID" : "' + contactId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
 	var url = urlBase + '/UpdateContact.' + extension;
 
 	

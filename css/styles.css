@@ -1,12 +1,15 @@
 body {
-    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(33,25,147,1) 30%, rgba(129,37,199,1) 59%, rgba(235,0,234,1) 74%, rgba(255,53,131,1) 89%, rgba(255,194,9,1) 100%);
-
+    background: linear-gradient(0deg, rgba(21,19,40,1) 0%, rgba(40,32,148,1) 26%, rgba(147,45,226,1) 54%, rgba(213,52,212,1) 70%, rgba(255,78,147,1) 86%, rgba(255,185,50,1) 96%, rgba(255,216,99,1) 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-#siteHeader {
+.header {
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.55);
+    border-bottom: 4px ridge rgb(190, 190, 190);
     padding-left: 30px;
     padding-right: 30px;
+    margin-bottom: 20px;
 }
 input {
     margin-top: 0px;
@@ -34,6 +37,7 @@ label {
         max-width: 550px;
     }
 }
+
 
 /* index */
 #loginButton {

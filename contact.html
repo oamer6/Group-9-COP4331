@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Contact Manager</title>
+	<script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript" src="js/code.js"></script>
+	<!-- I also added Bootstrap online stylesheet for later touch up on the front end -->
+	<!-- Use boostrap's button class since our stylesheet doesn't have a button customization yet-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="css/styles.css" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<div id="siteHeader">
+		<h1 id="title">My Contact Manager</h1>
+		<hr>
+	</div>
+
+	<div id="loggedInDiv">
+		<span id="userName"></span><br />
+		<script>readCookie();</script> <!-- calls .js function to read cookie, thus displaying firstName and lastName at top of page -->
+		<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
+	</div>
+
+	<div id="accessUIDiv">
+		<!-- search contact -->
+		<div id="searchDiv">
+			<br />
+			<h3 id="searchHeader"> Search for Contact </h3>
+			<input type="text" id="searchText" placeholder="Contact To Search For"/>
+			<button type="button" id="searchButton" class="buttons" onclick="searchContact();"> Search Contact </button>
+			<span id="searchContactResult"></span>
+			<p id="contactList">
+			</p>
+		</div>
+
+		<!-- add contact-->
+		<form>
+			<br />
+			<h3 id="addContactHeader"> Add New Contact </h3>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="firstName">First Name</label>
+					<input type="text" class="form-control" id="firstName" placeholder="enter their first name">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="lastName">Last Name</label>
+					<input type="text" class="form-control" id="lastName" placeholder="enter their last name">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="email">Email</label>
+					<input type="email" class="form-control" id="email" placeholder="enter their email address">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="phoneNumber">Phone Number</label>
+					<input type="text" class="form-control" id="phoneNumber" placeholder="enter their phone number">
+				</div>
+			</div>
+			
+			<button type="button" id="addContactButton" class="buttons" onclick="addContact();"> Add Contact </button>
+			<span id="addContactResult"></span>
+		</form>
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

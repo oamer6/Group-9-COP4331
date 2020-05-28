@@ -28,6 +28,7 @@
 			while($row = $result->fetch_assoc())
 			{
 				$searchCount++;
+<<<<<<< HEAD
 				$searchResults .= '"' . "First name: " . $row["firstName"] .  
 										" " .
 										"Last name: " . $row["lastName"] .
@@ -38,16 +39,21 @@
 										" " . 
 										"Date created: " . $row["dateCreated"] .
 								  							'"';
+=======
+				$searchResults .= '"' . $row["firstName"] . '"';
+				
+				returnWithInfo( $searchResults );
+>>>>>>> d163bcf3b1fe16d9b589b1e0da15226c71255cd7
 			}
 		}
 		else
 		{
-			returnWithError( "No Records Found" );
+			returnNotFound();
 		}
 		$conn->close();
 	}
 
-	returnWithInfo( $searchResults );
+	
 
 	function getRequestInfo()
 	{
@@ -56,14 +62,25 @@
 
 	function sendResultInfoAsJson( $obj )
 	{
+<<<<<<< HEAD
 		header('Content-type: application/json');
 		echo json_encode( $obj );
+=======
+        header('Content-Type: application/json');
+        echo $obj;
+>>>>>>> d163bcf3b1fe16d9b589b1e0da15226c71255cd7
 	}
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
+	}
+	
+	function returnNotFound()
+	{
+	    $retValue = '{"error":1}';
+        sendResultInfoAsJson( $retValue );
 	}
 	
 	function returnWithInfo( $searchResults )

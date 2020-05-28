@@ -50,7 +50,7 @@
 	function sendResultInfoAsJson( $obj )
 	{
         header('Content-Type: application/json');
-        echo $obj;
+        echo json_encode( $obj );
 	}
 	
 	function returnWithError( $err )
@@ -61,14 +61,13 @@
     
     function returnUserTaken()
     {
-        $retValue = '{"error":1}';
+        $retValue = '{"error": username exists"}';
         sendResultInfoAsJson( $retValue );
     }
 
     function returnWithInfo( $username, $password )
 	{
-		$retValue = '{"Username":"' . $username . '","Password":"' . $password . '","error":""}';
-		
+		$retValue = '{"Username":' . $username . ',"Password":"' . $password . '","error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 ?>

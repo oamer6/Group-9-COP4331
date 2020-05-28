@@ -2,11 +2,13 @@ var urlBase = 'http://COP4331-9.us/LAMPAPI';
 var extension = 'php';
 
 var userId = 0;
+var contactId = 0;
 var firstName = "";
 var lastName = "";
 
 function doLogin()
 {
+	// works
 	userId = 0;
 	firstName = "";
 	lastName = "";
@@ -107,6 +109,7 @@ function readCookie()
 
 function doLogout()
 {
+	// works
 	// clear the cookie
 
 	userId = 0;
@@ -118,10 +121,11 @@ function doLogout()
 
 function addUser()
 {
+	// works
 	var firstName = document.getElementById("firstName").value;
 	var lastName = document.getElementById("lastName").value;
 	var username = document.getElementById("newUsername").value;
-	var password = document.getElementById("newPassword").value;
+	//var password = document.getElementById("newPassword").value;
 	var hash = md5(password);
 	
 	document.getElementById("addUserResult").innerHTML = "";
@@ -130,18 +134,23 @@ function addUser()
 	var url = urlBase + '/AddUser.' + extension;
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true); // POST, asynchronous
+	xhr.open("POST", url, false); // POST, not asynchronous
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("addUserResult").innerHTML = "User has been added";
-			}
-		};
 		xhr.send(jsonPayload);
+		
+		var jsonObject = JSON.parse(xhr.responseText);
+		
+		if (jsonObject.error == 1)
+		{
+			document.getElementById("addUserResult").innerHTML = "Username already taken";
+			return;
+		}
+		
+		document.getElementById("addUserResult").innerHTML = "User added";
+
+		saveCookie(); // store login info in a cookie
 	}
 	catch(err)
 	{
@@ -156,10 +165,10 @@ function addContact()
 	var phoneNumber = document.getElementById("phoneNumber").value;
 	var email = document.getElementById("email").value;
 	var date = new Date();
+	
+	document.getElementById("addContactResult").innerHTML = "";
 
 	readCookie();
-	
-	locationReload();
 	
 	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
 	var url = urlBase + '/AddContact.' + extension;
@@ -169,14 +178,11 @@ function addContact()
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("addContactResult").innerHTML = "Contact has been added";
-			}
-		};
 		xhr.send(jsonPayload);
+		
+		document.getElementById("addContactResult").innerHTML = "Contact added";
+
+		saveCookie(); // store login info in a cookie
 	}
 	catch(err)
 	{
@@ -186,7 +192,13 @@ function addContact()
 
 function searchContact()
 {
+	// works
 	var srch = document.getElementById("searchText").value;
+	if(srch == "")
+	{
+		document.getElementById("searchContactResult").innerHTML = "Please enter a contact to search for";
+		return;
+	}
 	document.getElementById("searchContactResult").innerHTML = "";
 	
 	readCookie();
@@ -205,9 +217,14 @@ function searchContact()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("searchContactResult").innerHTML = "Contact(s) retrieved";
 				var jsonObject = JSON.parse(xhr.responseText);
 				
+				if (jsonObject.error == 1)
+				{
+					document.getElementById("searchContactResult").innerHTML = "Not found";
+					return;
+				}
+				document.getElementById("searchContactResult").innerHTML = "Contact(s) retrieved";
 				for (var i = 0; i < jsonObject.results.length; i++)
 				{
 					contactList += jsonObject.results[i];
@@ -228,59 +245,14 @@ function searchContact()
 	}
 }	
 
-function showAllContacts()
-{
-	// modify search function so that it searches for an empty string
-
-	document.getElementById("searchContactResult").innerHTML = "";
-	
-	readCookie();
-
-	var contactList = "";
-	
-	var jsonPayload = '{"search" : "' + null + '","userId" : ' + userId + '}'; // search for null
-	var url = urlBase + '/SearchContact.' + extension;
-	
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true); // POST, asynchronous
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function()
-		{
-			if (this.readyState == 4 && this.status == 200)
-			{
-				document.getElementById("searchContactResult").innerHTML = "Contact(s) retrieved";
-				var jsonObject = JSON.parse(xhr.responseText);
-				
-				for (var i = 0; i < jsonObject.results.length; i++)
-				{
-					contactList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						contactList += "<br />\r\n";
-					}
-				}
-				
-				document.getElementById("contactList").innerHTML = contactList;
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("searchContactResult").innerHTML = err.message;
-	}
-}
-
-function removeContact(id)
+function removeContact()
 {
 	readCookie();
 	
 	var prompt = confirm("Are you sure that you want to delete this contact?");
 	if(prompt)
 	{
-		var jsonPayload = '{"id" : "' + id + '"}';
+		var jsonPayload = '{"ContactID" : "' + contactId + '"}';
 		var url = urlBase + '/RemoveContact.' + extension;
 
 		var xhr = new XMLHttpRequest();
@@ -305,7 +277,7 @@ function removeContact(id)
 	}
 }
 
-function updateContact(id)
+function updateContact()
 {
 	var firstName = document.getElementById("firstName").value;
 	var lastName = document.getElementById("lastName").value;
@@ -317,7 +289,7 @@ function updateContact(id)
 	
 	locationReload();
 	
-	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
+	var jsonPayload = '{"ContactID" : "' + contactId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
 	var url = urlBase + '/UpdateContact.' + extension;
 
 	

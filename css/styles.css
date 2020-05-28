@@ -1,31 +1,56 @@
-#inner-title {
-    margin-bottom: 0px;
+body {
+    background: linear-gradient(0deg, rgba(21,19,40,1) 0%, rgba(40,32,148,1) 26%, rgba(147,45,226,1) 54%, rgba(213,52,212,1) 70%, rgba(255,78,147,1) 86%, rgba(255,185,50,1) 96%, rgba(255,216,99,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
-  
+.header {
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.55);
+    border-bottom: 4px ridge rgb(190, 190, 190);
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-bottom: 20px;
+}
 input {
     margin-top: 0px;
     margin-bottom: 4px;
-    background-color: rgba(0, 0, 0, 0);
-    border-color: #bbb;
-    -webkit-transition: 0.25s;
-    transition: 0.25s;
-    outline: none;
 }
-input:focus {
-    background-color: rgba(0, 0, 0, 0.08);
-    border-color: #777;
+#inner-title {
+    margin-bottom: 4px;
 }
-
-/*
-#loginName {
-    border-color: #bb3333;
-}
-*/
-
-#addUserForm {
-  margin-top: 8px;
-}
-
 #loginResult, #addUserResult {
     color: red;
 }
+label {
+    margin-bottom: 0px;
+}
+.container {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 15px;
+    border: 3px solid rgb(190, 190, 190);
+}
+@media (min-width: 550px) {
+    /* Set login container (index.html) max width */
+    #indexContainer{
+        max-width: 550px;
+    }
+}
+
+
+/* index */
+#loginButton {
+    margin-bottom: 8px;
+}
+
+/* register */
+#addUserForm {
+    margin-top: 0px;
+}
+#addUserButton {
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+/* contact */

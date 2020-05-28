@@ -12,32 +12,33 @@
 </head>
 
 <body>
-	<div id="siteHeader">
-		<h1 id="title">My Contact Manager</h1>
-		<hr>
+	<div id="siteHeader" class="header">
+		<h1 id="title" style="margin-bottom: 4px;">My Contact Manager</h1>
+		<div id="loggedInDiv">
+			<button type="button" id="logoutButton" class="btn btn-dark" onclick="doLogout();"> Log Out </button>
+			<b><span id="userName"></span></b>
+			<script>readCookie();</script> <!-- calls .js function to read cookie, thus displaying firstName and lastName at top of page -->
+		</div>
 	</div>
 
-	<div id="loggedInDiv">
-		<span id="userName"></span><br />
-		<script>readCookie();</script> <!-- calls .js function to read cookie, thus displaying firstName and lastName at top of page -->
-		<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
-	</div>
-
-	<div id="accessUIDiv">
-		<!-- search contact -->
-		<div id="searchDiv">
-			<br />
+	<div id="accessUIDiv" class="container">
+		<!-- Search contact -->
+		<div id="searchDiv" class="container">
 			<h3 id="searchHeader"> Search for Contact </h3>
-			<input type="text" id="searchText" placeholder="Contact To Search For"/>
-			<button type="button" id="searchButton" class="buttons" onclick="searchContact();"> Search Contact </button>
+			<div class="input-group">
+				<input type="text" id="searchText" class="form-control" placeholder="Contact To Search For"/>
+				<div class="input-group-append">
+					<button type="button" id="searchButton" class="btn btn-primary" onclick="searchContact();"> Search Contact </button>
+				</div>
+			</div>
 			<span id="searchContactResult"></span>
 			<p id="contactList">
 			</p>
 		</div>
 
-		<!-- add contact-->
-		<form>
-			<br />
+		<!-- Add contact-->
+		<br />
+		<form id="addContactDiv" class="container">
 			<h3 id="addContactHeader"> Add New Contact </h3>
 			<div class="form-row">
 				<div class="form-group col-md-6">
@@ -60,7 +61,7 @@
 				</div>
 			</div>
 			
-			<button type="button" id="addContactButton" class="buttons" onclick="addContact();"> Add Contact </button>
+			<button type="button" id="addContactButton" class="btn btn-primary" onclick="addContact();"> Add Contact </button>
 			<span id="addContactResult"></span>
 		</form>
 	</div>

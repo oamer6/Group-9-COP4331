@@ -21,22 +21,28 @@
 		//   "search" : "*Some characer or string*"
 		// }
 		//
-		$sql = "SELECT firstName,lastName,email,phoneNum,dateCreated from Contacts where firstName like '%" . $inData["search"] . "%' and UserID=" . $inData["userId"];
+		$sql = "SELECT firstName,lastName,email,phoneNum,dateCreated,id from Contacts where firstName like '%" . $inData["search"] . "%' and UserID=" . $inData["userId"];
 		$result = mysqli_query($conn, $sql);
 		if ($result->num_rows > 0)
 		{
 			while($row = $result->fetch_assoc())
 			{
+				if ($searchCount > 0)
+				{
+					$searchResults .= ",";
+				}
 				$searchCount++;
 				$searchResults .= '"' . "First name: " . $row["firstName"] .  
-										" " .
+										", " .
 										"Last name: " . $row["lastName"] .
-										" " .  
+										", " .  
 										"Phone #: " . $row["phoneNum"] .
-										" " . 
+										", " . 
 										"Email: " . $row["email"] .
-										" " . 
+										", " . 
 										"Date created: " . $row["dateCreated"] .
+										", " .
+										"Id: " . $row["id"] .
 								  							'"';
 			}
 		}
@@ -57,7 +63,7 @@
 	function sendResultInfoAsJson( $obj )
 	{
 		header('Content-type: application/json');
-		echo json_encode( $obj );
+		echo ( $obj );
 	}
 	
 	function returnWithError( $err )

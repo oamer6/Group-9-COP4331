@@ -67,7 +67,7 @@
 
     function returnWithInfo( $username, $password )
 	{
-		$retValue = '{"Username":"' . $username . '","Password":"' . $password . '","error":""}';
+		$retValue = '{"Firstname":"' . $inData["firstName"] . '","Lastname":"' . $inData["lastName"] . '","Phonenum":"' . $inData["phoneNum"] . '","error":""}';
 		
 		sendResultInfoAsJson( $retValue );
 	}

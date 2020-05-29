@@ -37,6 +37,9 @@ label {
         max-width: 550px;
     }
 }
+.table-striped > thead > tr > th, .table-striped > tbody > tr > td {
+    border-color: rgb(190, 190, 190);
+}
 
 
 /* index */
@@ -54,3 +57,18 @@ label {
 }
 
 /* contact */
+#tableIDCol, #tableRowID {
+    /* use these^ fields to store ID, without the user seeing it */
+    display: none;
+}
+#iconEdit, #iconRemove {
+    color: black;
+}
+#iconEdit:hover {
+    /* hacky way of setting img color to yellow */
+    filter: invert(88%) sepia(50%) saturate(3761%) hue-rotate(320deg) brightness(100%) contrast(101%);
+}
+#iconRemove:hover {
+    /* hacky way of setting img color to red */
+    filter: invert(14%) sepia(56%) saturate(7297%) hue-rotate(356deg) brightness(104%) contrast(119%);
+}

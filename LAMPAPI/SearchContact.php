@@ -2,7 +2,7 @@
 
 	$inData = getRequestInfo();
 	
-	$arr;
+	$searchResults = "";
 	$searchCount = 0;
 
 	// Verify these credentials
@@ -27,14 +27,22 @@
 		{
 			while($row = $result->fetch_assoc())
 			{
-				if ($searchCount > 0)
-				{
-					$arr .= ",";
-				}
 				$searchCount++;
-
-				$arr = array('firstName' => $row["firstName"], 'lastName' => $row["lastName"], 'phoneNum' => $row["phoneNum"], 'email' => $row["email"], 'id' => $row["id"], 'dateCreated' => $row["dateCreated"]);
+				
+				if ($searchCount > 1)
+				{
+					$searchResults .= ',';
+				}
+				$searchResults .= '{"Firstname" : "' . $row["firstName"] . '",' .
+				'"Lastname" : "' . $row["lastName"] . '",' .
+				'"PhoneNum" : "' . $row["phoneNum"] . '",' .
+				'"Email" : "' . $row["email"] . '",' .
+				'"DateCreated" : "' . $row["dateCreated"] . '",' .
+				'"ID" : ' . $row["id"] . '}';
 			}
+			
+			returnWithInfo( $searchResults );
+
 		}
 		else
 		{
@@ -43,7 +51,7 @@
 		$conn->close();
 	}
 
-	returnWithInfo( $arr );
+	//returnWithInfo( $searchResults );
 
 	function getRequestInfo()
 	{
@@ -53,19 +61,19 @@
 	function sendResultInfoAsJson( $obj )
 	{
 		header('Content-type: application/json');
-		echo ($obj);
+		echo ( $obj );
 	}
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
+		$returnValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		sendResultInfoAsJson( $returnValue );
 	}
 	
-	function returnWithInfo( $arr )
+	function returnWithInfo( $searchResults )
 	{
-		//$retValue = '{"results":[' . $arr . '],"error":""}';
-		sendResultInfoAsJson(json_encode($arr));
+		$retValue = '{"results":[' . $searchResults . '],"error":""}';
+		sendResultInfoAsJson( $retValue );
 	}
 	
 ?>

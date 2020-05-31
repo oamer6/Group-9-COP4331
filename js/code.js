@@ -1,10 +1,13 @@
 var urlBase = 'http://COP4331-9.us/LAMPAPI';
 var extension = 'php';
 
-var userId = 0;
+var userId = 0;		// stores the logged in user's userID
+var firstName = "";	// used to display the logged in user's first name at the top of the site
+var lastName = "";	// used to display the logged in user's last name at the top of the site
+
 var contactId = 0;
-var firstName = "";
-var lastName = "";
+var prevSearch = "";	// holds the previously searched string
+var refreshSearch = false;	// states whether or not we are using "prevSearch" as our srch value (instead of grabbing it from HTML)
 
 function doLogin()
 {
@@ -126,15 +129,15 @@ function doLogout()
 function addUser()
 {
 	// works
-	firstName = document.getElementById("firstName").value;
-	lastName = document.getElementById("lastName").value;
+	var addFirstName = document.getElementById("firstName").value;
+	var addLastName = document.getElementById("lastName").value;
 	var username = document.getElementById("newUsername").value;
 	var password = document.getElementById("newPassword").value;
 	var hash = md5(password);
 	
 	document.getElementById("addUserResult").innerHTML = "";
 	
-	var jsonPayload = '{"Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Username" : "' + username + '", "Password" : "' + hash + '"}';
+	var jsonPayload = '{"Firstname" : "' + addFirstName + '", "Lastname" : "' + addLastName + '", "Username" : "' + username + '", "Password" : "' + hash + '"}';
 	var url = urlBase + '/AddUser.' + extension;
 	
 	var xhr = new XMLHttpRequest();
@@ -157,6 +160,12 @@ function addUser()
 		document.getElementById("addUserResult").innerHTML = "User added";
 
 		saveCookie(); // store login info in a cookie
+
+		// clear input fields
+		document.getElementById("firstName").innerHTML = "";
+		document.getElementById("lastName").innerHTML = "";
+		document.getElementById("newUsername").innerHTML = "";
+		document.getElementById("newPassword").innerHTML = "";
 	}
 	catch(err)
 	{
@@ -167,8 +176,8 @@ function addUser()
 function addContact()
 {
 	// works 
-	var firstName = document.getElementById("firstName").value;
-	var lastName = document.getElementById("lastName").value;
+	var addFirstName = document.getElementById("firstName").value;
+	var addLastName = document.getElementById("lastName").value;
 	var phoneNumber = document.getElementById("phoneNumber").value;
 	var email = document.getElementById("email").value;
 	var date = new Date();
@@ -177,7 +186,7 @@ function addContact()
 
 	readCookie();
 	
-	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
+	var jsonPayload = '{"UserID" : "' + userId + '", "Firstname" : "' + addFirstName + '", "Lastname" : "' + addLastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
 	var url = urlBase + '/AddContact.' + extension;
 	
 	var xhr = new XMLHttpRequest();
@@ -192,6 +201,12 @@ function addContact()
 		document.getElementById("addContactResult").innerHTML = "Contact added";
 
 		saveCookie(); // store login info in a cookie
+
+		// clear input fields
+		document.getElementById("firstName").innerHTML = "";
+		document.getElementById("lastName").innerHTML = "";
+		document.getElementById("phoneNumber").innerHTML = "";
+		document.getElementById("email").innerHTML = "";
 	}
 	catch(err)
 	{
@@ -202,7 +217,13 @@ function addContact()
 function searchContact()
 {
 	// works, but needs to be modified for update and remove
-	var srch = document.getElementById("searchText").value;
+
+	// if "refreshing" table, just use previous search; otherwise, use the text from search input field
+	refreshSearch ? srch = prevSearch : srch = document.getElementById("searchText").value;
+	refreshSearch = false;
+
+	prevSearch = srch;	// prevSearch is used for "refreshing" table after contacts are edited or removed
+
 	// if the user submits an empty search
 	if(srch == "")
 	{
@@ -237,6 +258,59 @@ function searchContact()
 				}
 				// documents for the user that contact match was found
 				document.getElementById("searchContactResult").innerHTML = "Contact(s) retrieved";
+
+				// generate table populated with searched contacts
+				var table = document.getElementById("searchTable");
+				for (var i = 0; i < jsonObject.results.length; i++)
+				{
+					// receive contact as JSON object
+					var resultsObject = JSON.parse(jsonObject.results[i]);
+
+					// create new row with cells
+					var row = table.insertRow();
+					var cellID = row.insertCell();
+					var cellFirst = row.insertCell();
+					var cellLast = row.insertCell();
+					var cellEmail = row.insertCell();
+					var cellPhone = row.insertCell();
+					var cellEdit = row.insertCell();
+					var cellRemove = row.insertCell();
+
+					// populate cells
+					cellID.id = "tableRow" + (i+1) + "ID";
+					cellID.style = "display: none;";
+					cellID.innerHTML = resultsObject.ID;
+
+					cellFirst.id = "tableRow" + (i+1) + "First";
+					cellFirst.innerHTML = resultsObject.Firstname;
+
+					cellLast.id = "tableRow" + (i+1) + "Last";
+					cellLast.innerHTML = resultsObject.Lastname;
+
+					cellEmail.id = "tableRow" + (i+1) + "Email";
+					cellEmail.innerHTML = resultsObject.Email;
+
+					cellPhone.id = "tableRow" + (i+1) + "Phone";
+					cellPhone.innerHTML = resultsObject.PhoneNum;
+
+					// create Edit and Remove buttons and append them to their cells
+					var elemLink;
+
+					cellEdit.id = "tableRow" + (i+1) + "Edit";
+					elemLink = document.createElement("a");
+					elemLink.href = "#editContact";
+					elemLink.onclick = "showUpdateContact(" + (i+1) + ");";
+					elemLink.innerHTML = '<img id="iconEdit" src="images/pencil.svg" alt="Edit">';
+					cellEdit.appendChild(elemLink);
+
+					cellRemove.id = "tableRow" + (i+1) + "Remove";
+					elemLink = document.createElement("a");
+					elemLink.onclick = "removeContact(" + (i+1) + ");";
+					elemLink.innerHTML = '<img id="iconRemove" src="images/trash.svg" alt="Remove">';
+					cellEdit.appendChild(elemLink);
+				}
+
+				/* OLD METHOD (STRINGS)
 				for (var i = 0; i < jsonObject.results.length; i++)
 				{
 					contactList += jsonObject.results[i];
@@ -246,7 +320,9 @@ function searchContact()
 					}
 				}
 				
-				document.getElementById("contactList").innerHTML = contactList;
+				document.getElementById("contactList").innerHTML = contactList;*/
+
+
 			}
 		};
 		// send payload to SearchContact.php
@@ -258,15 +334,20 @@ function searchContact()
 	}
 }	
 
-function removeContact()
+function removeContact(index)
 {
 	readCookie();
 	
+	// contact data is stored in HTML table in format "tableRow#XXXX", where # is index and XXXX is variable name, like "First" or "Email"
+	var remID = document.getElementById("tableRow" + index + "ID").innerHTML;
+	var remFirstName = document.getElementById("tableRow" + index + "First").innerHTML;
+	var remLastName = document.getElementById("tableRow" + index + "Last").innerHTML;
+
 	// prompt for user to confirm deletion
-	var prompt = confirm("Are you sure that you want to delete this contact?");
+	var prompt = confirm("Are you sure that you want to delete contact: " + remFirstName + " " + remLastName + "?");
 	if(prompt)
 	{
-		var jsonPayload = '{"ContactID" : "' + contactId + '"}';
+		var jsonPayload = '{"ContactID" : "' + remID + '"}';
 		var url = urlBase + '/RemoveContact.' + extension;
 
 		var xhr = new XMLHttpRequest();
@@ -280,12 +361,14 @@ function removeContact()
 				{
 					// documents for user that contact was deleted
 					document.getElementById("removeContactResult").innerHTML = "Contact deleted";
+					
+					// "refresh" table by re-searching previous search (so that the list may be updated after deletion)
+					refreshSearch = true;
+					searchContact();
 				}
 			};
 			// send payload to RemoveContact.php
 			xhr.send(jsonPayload);
-			// refresh so that the list may be updated after deletion
-			location.reload();
 		}
 		catch(err)
 		{
@@ -297,15 +380,17 @@ function removeContact()
 
 function updateContact()
 {
-	var firstName = document.getElementById("firstName").value;
-	var lastName = document.getElementById("lastName").value;
-	var phoneNumber = document.getElementById("phoneNumber").value;
-	var email = document.getElementById("email").value;
-	var date = new Date();
+	// grab edited contact info from input form
+	var updFirstName = document.getElementById("editFirstName").value;
+	var updLastName = document.getElementById("editLastName").value;
+	var updEmail = document.getElementById("editEmail").value;
+	var updPhone = document.getElementById("editPhoneNumber").value;
 
 	readCookie();
 	
-	var jsonPayload = '{"ContactID" : "' + contactId + '", "Firstname" : "' + firstName + '", "Lastname" : "' + lastName + '", "Phonenumber" : "' + phoneNumber + '", "email" : "' + email + '", "dateCreated" : "' + date.toUTCString() + '"}';
+	// use global contactID var and grabbed contact info to make our json payload
+	var jsonPayload = '{"ContactID" : "' + contactId + '", "Firstname" : "' + updFirstName + '", "Lastname" : "' + updLastName + '", "Phonenumber" : "' + updPhone + '", "email" : "' + updEmail + '"}';
+
 	var url = urlBase + '/UpdateContact.' + extension;
 	
 	var xhr = new XMLHttpRequest();
@@ -319,15 +404,56 @@ function updateContact()
 			{
 				// documents for user that contact has been updated
 				document.getElementById("updateContactResult").innerHTML = "Contact updated";
+				
+				// "refresh" table by re-searching previous search (so that the list may be updated after deletion)
+				refreshSearch = true;
+				searchContact();
 			}
 		};
 		// send payload to UpdateContact.php
 		xhr.send(jsonPayload);
-		// refresh so that the contact may be displayed correctly after update
-		location.reload();
+		// hide HTML elements for edit contact
+		document.getElementById("editContact").hidden = true;
 	}
 	catch(err)
 	{
 		document.getElementById("updateContactResult").innerHTML = err.message;
 	}
+}
+
+function showUpdateContact(index)
+{
+	// set global contactID var so that, if we call updateContact() after this, we know which contact ID we're updating
+	contactId = document.getElementById("tableRow" + index + "ID").innerHTML;
+
+	// contact data is stored in HTML table in format "tableRow#XXXX", where # is index and XXXX is variable name, like "First" or "Email"
+	var updFirstName = document.getElementById("tableRow" + index + "First").innerHTML;
+	var updLastName = document.getElementById("tableRow" + index + "Last").innerHTML;
+	var updEmail = document.getElementById("tableRow" + index + "Email").innerHTML;
+	var updPhone = document.getElementById("tableRow" + index + "Phone").innerHTML;
+
+	// update and display HTML elements for edit contact
+	var editElement;
+	editElement = document.getElementById("editContactHeader");
+	editElement.innerHTML = "Editing Contact: " + updFirstName + " " + updLastName;
+	editElement = document.getElementById("editFirstName");	// edit contact first name
+	editElement.value = updFirstName;
+	editElement.placeholder = updFirstName;
+	editElement = document.getElementById("editLastName");	//edit contact last name
+	editElement.value = updLastName;
+	editElement.placeholder = updLastName;
+	editElement = document.getElementById("editEmail");	//edit contact email
+	editElement.value = updEmail;
+	editElement.placeholder = updEmail;
+	editElement = document.getElementById("editPhoneNumber");	//edit contact phone number
+	editElement.value = updPhone;
+	editElement.placeholder = updPhone;
+	
+	document.getElementById("editContact").hidden = false;
+}
+
+function cancelUpdateContact()
+{
+	// simply hide HTML elements for edit contact; input form will be reset whenever updateContact() is called again
+	document.getElementById("editContact").hidden = true;
 }

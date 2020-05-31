@@ -18,7 +18,7 @@ input {
 #inner-title {
     margin-bottom: 4px;
 }
-#loginResult, #addUserResult {
+#loginResult, #addUserResult, #removeContactResult, #editContactResult {
     color: red;
 }
 label {
@@ -57,18 +57,16 @@ label {
 }
 
 /* contact */
-#tableIDCol, #tableRowID {
-    /* use these^ fields to store ID, without the user seeing it */
-    display: none;
-}
 #iconEdit, #iconRemove {
+    width: 20px;
+    height: 20px;
     color: black;
 }
 #iconEdit:hover {
-    /* hacky way of setting img color to yellow */
+    /* hacky way of setting img color from black->yellow */
     filter: invert(88%) sepia(50%) saturate(3761%) hue-rotate(320deg) brightness(100%) contrast(101%);
 }
 #iconRemove:hover {
-    /* hacky way of setting img color to red */
+    /* hacky way of setting img color from black->red */
     filter: invert(14%) sepia(56%) saturate(7297%) hue-rotate(356deg) brightness(104%) contrast(119%);
 }

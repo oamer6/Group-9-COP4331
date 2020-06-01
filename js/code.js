@@ -162,10 +162,10 @@ function addUser()
 		saveCookie(); // store login info in a cookie
 
 		// clear input fields
-		document.getElementById("firstName").innerHTML = "";
-		document.getElementById("lastName").innerHTML = "";
-		document.getElementById("newUsername").innerHTML = "";
-		document.getElementById("newPassword").innerHTML = "";
+		document.getElementById("firstName").value = "";
+		document.getElementById("lastName").value = "";
+		document.getElementById("newUsername").value = "";
+		document.getElementById("newPassword").value = "";
 	}
 	catch(err)
 	{
@@ -203,10 +203,10 @@ function addContact()
 		saveCookie(); // store login info in a cookie
 
 		// clear input fields
-		document.getElementById("firstName").innerHTML = "";
-		document.getElementById("lastName").innerHTML = "";
-		document.getElementById("phoneNumber").innerHTML = "";
-		document.getElementById("email").innerHTML = "";
+		document.getElementById("firstName").value = "";
+		document.getElementById("lastName").value = "";
+		document.getElementById("phoneNumber").value = "";
+		document.getElementById("email").value = "";
 	}
 	catch(err)
 	{
@@ -264,7 +264,7 @@ function searchContact()
 				for (var i = 0; i < jsonObject.results.length; i++)
 				{
 					// receive contact as JSON object
-					var resultsObject = JSON.parse(jsonObject.results[i]);
+					var resultsObject = jsonObject.results[i];
 
 					// create new row with cells
 					var row = table.insertRow();
@@ -307,7 +307,7 @@ function searchContact()
 					elemLink = document.createElement("a");
 					elemLink.onclick = "removeContact(" + (i+1) + ");";
 					elemLink.innerHTML = '<img id="iconRemove" src="images/trash.svg" alt="Remove">';
-					cellEdit.appendChild(elemLink);
+					cellRemove.appendChild(elemLink);
 				}
 
 				/* OLD METHOD (STRINGS)

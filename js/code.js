@@ -225,6 +225,7 @@ function searchContact()
 	// if "refreshing" table, just use previous search; otherwise, use the text from search input field
 	if (refreshSearch)
 	{
+		refreshSearch = false;	// reset flag
 		if (prevSearch == "")
 		{
 			return;	// don't "refresh" the table if there's nothing in the search bar

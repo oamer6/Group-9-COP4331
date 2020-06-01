@@ -1,7 +1,7 @@
 <?php
     $inData = getRequestInfo();
     
-    $id = $inData["ID"];
+    $id = $inData["ContactID"];
 
 	// Verify these credentials
 	$conn = new mysqli("localhost", "groupnum_groupnine", "L33tNyne!", "groupnum_COP4331");
@@ -30,7 +30,7 @@
 	function sendResultInfoAsJson( $obj )
 	{
         header('Content-Type: application/json');
-        echo json_encode( $obj );
+        echo $obj;
 	}
 	
 	function returnWithError( $err )

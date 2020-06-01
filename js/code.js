@@ -379,6 +379,8 @@ function removeContact(index)
 			};
 			// send payload to RemoveContact.php
 			xhr.send(jsonPayload);
+			// refresh page
+			location.reload();
 		}
 		catch(err)
 		{

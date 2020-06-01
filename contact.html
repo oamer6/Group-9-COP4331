@@ -54,42 +54,6 @@
 					</tbody>
 				</table>
 			</div>
-			<div id="testContainer" class="container">
-				<h3 id="inner-title">EXAMPLE Table</h3>
-				<table id="testTable" class="table table-striped table-hover table-responsive-sm">
-					<thead>
-						<tr>
-							<th id="tableIDCol" style="display: none;">ID</th>
-							<th>First</th>
-							<th>Last</th>
-							<th>Email</th>
-							<th>Phone</th>
-							<th style="width: 24px;"></th>
-							<th style="width: 24px;"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr id="tableRow1">
-							<td id="tableRow1ID" style="display: none;">25</td>
-							<td id="tableRow1First">Alan</td>
-							<td id="tableRow1Last">Perrow</td>
-							<td id="tableRow1Email">ap@email.com</td>
-							<td id="tableRow1Phone">321-654-0987</td>
-							<td id="tableRow1Edit"> <a href="#editContact" onclick="showUpdateContact(1);"><img id="iconEdit" src="images/pencil.svg" alt="Edit"></a> </td>
-							<td id="tableRow1Remove"> <a onclick="removeContact(1);"><img id="iconRemove" src="images/trash.svg" alt="Remove"></a> </td>
-						</tr>
-						<tr id="tableRow2">
-							<td id="tableRow2ID" style="display: none;">66</td>
-							<td id="tableRow2First">Bob</td>
-							<td id="tableRow2Last">Roberts</td>
-							<td id="tableRow2Email">br@email.com</td>
-							<td id="tableRow2Phone">234-567-9012</td>
-							<td id="tableRow2Edit"> <a href="#editContact" onclick="showUpdateContact(2);"><img id="iconEdit" src="images/pencil.svg" alt="Edit"></a> </td>
-							<td id="tableRow2Remove"> <a onclick="removeContact(2);"><img id="iconRemove" src="images/trash.svg" alt="Remove"></a> </td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
 			<span id="removeContactResult"></span>
 			<br />
 			<span id="updateContactResult"></span>
@@ -121,12 +85,11 @@
 			
 			<button type="button" id="editContactButton" class="btn btn-primary" onclick="updateContact();"> Update Contact </button>
 			<button type="button" id="cancelEditContactButton" class="btn btn-secondary" onclick="cancelUpdateContact();"> Cancel </button>
-			<span id="editContactResult"></span>
 		</form>
 
 		<!-- Add contact-->
 		<br />
-		<form id="addContactDiv" class="container">
+		<form id="addContactDiv" class="container" style="background-color: rgb(225, 255, 225);">
 			<h3 id="addContactHeader"> Add New Contact </h3>
 			<div class="form-row">
 				<div class="form-group col-md-6">

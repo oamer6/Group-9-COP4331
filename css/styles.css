@@ -18,7 +18,7 @@ input {
 #inner-title {
     margin-bottom: 4px;
 }
-#loginResult, #addUserResult, #removeContactResult, #editContactResult {
+#loginResult, #addUserResult, #removeContactResult, #updateContactResult {
     color: red;
 }
 label {
@@ -65,8 +65,10 @@ label {
 #iconEdit:hover {
     /* hacky way of setting img color from black->yellow */
     filter: invert(88%) sepia(50%) saturate(3761%) hue-rotate(320deg) brightness(100%) contrast(101%);
+    cursor: pointer;
 }
 #iconRemove:hover {
     /* hacky way of setting img color from black->red */
     filter: invert(14%) sepia(56%) saturate(7297%) hue-rotate(356deg) brightness(104%) contrast(119%);
+    cursor: pointer;
 }

@@ -256,11 +256,21 @@ function searchContact()
 					document.getElementById("searchContactResult").innerHTML = "No records found";
 					return;
 				}
+				/* Not really needed:
 				// documents for the user that contact match was found
 				document.getElementById("searchContactResult").innerHTML = "Contact(s) retrieved";
+				*/
 
-				// generate table populated with searched contacts
-				var table = document.getElementById("searchTable");
+				// generate new table body populated with searched contacts
+				var table = document.getElementById("searchTableBody");
+				if (table != null)
+				{
+					// remove previous table body if it exists
+					table.remove();
+				}
+				table = document.createElement("tbody");
+				table.id = "searchTableBody";
+				document.getElementById("searchTable").appendChild(table);
 				for (var i = 0; i < jsonObject.results.length; i++)
 				{
 					// receive contact as JSON object
@@ -299,13 +309,13 @@ function searchContact()
 					cellEdit.id = "tableRow" + (i+1) + "Edit";
 					elemLink = document.createElement("a");
 					elemLink.href = "#editContact";
-					elemLink.onclick = "showUpdateContact(" + (i+1) + ");";
+					elemLink.setAttribute("onclick", "showUpdateContact(" + (i+1) + ");");
 					elemLink.innerHTML = '<img id="iconEdit" src="images/pencil.svg" alt="Edit">';
 					cellEdit.appendChild(elemLink);
 
 					cellRemove.id = "tableRow" + (i+1) + "Remove";
 					elemLink = document.createElement("a");
-					elemLink.onclick = "removeContact(" + (i+1) + ");";
+					elemLink.setAttribute("onclick", "removeContact(" + (i+1) + ");");
 					elemLink.innerHTML = '<img id="iconRemove" src="images/trash.svg" alt="Remove">';
 					cellRemove.appendChild(elemLink);
 				}

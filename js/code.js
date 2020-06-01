@@ -207,6 +207,10 @@ function addContact()
 		document.getElementById("lastName").value = "";
 		document.getElementById("phoneNumber").value = "";
 		document.getElementById("email").value = "";
+
+		// "refresh" table by re-searching previous search (so that the list may be updated after deletion)
+		refreshSearch = true;
+		searchContact();
 	}
 	catch(err)
 	{
@@ -219,10 +223,20 @@ function searchContact()
 	// works, but needs to be modified for update and remove
 
 	// if "refreshing" table, just use previous search; otherwise, use the text from search input field
-	refreshSearch ? srch = prevSearch : srch = document.getElementById("searchText").value;
+	if (refreshSearch)
+	{
+		if (prevSearch = "")
+		{
+			return;	// don't "refresh" the table if there's nothing in the search bar
+		}
+		srch = prevSearch;
+	}
+	else
+	{
+		srch = document.getElementById("searchText").value;
+		prevSearch = srch;	// prevSearch is used for "refreshing" table after contacts are edited or removed
+	}
 	refreshSearch = false;
-
-	prevSearch = srch;	// prevSearch is used for "refreshing" table after contacts are edited or removed
 
 	// if the user submits an empty search
 	if(srch == "")
@@ -379,8 +393,6 @@ function removeContact(index)
 			};
 			// send payload to RemoveContact.php
 			xhr.send(jsonPayload);
-			// refresh page
-			location.reload();
 		}
 		catch(err)
 		{

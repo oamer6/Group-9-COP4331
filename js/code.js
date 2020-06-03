@@ -269,6 +269,14 @@ function searchContact()
 				if (JSON.stringify(jsonObject.error) === JSON.stringify("No Records Found"))
 				{
 					document.getElementById("searchContactResult").innerHTML = "No records found";
+
+					// if no contacts were returned from a search, clear the search table
+					var table = document.getElementById("searchTableBody");
+					if (table != null)
+					{
+						table.remove();
+					}
+					
 					return;
 				}
 				/* Not really needed:
@@ -356,16 +364,6 @@ function searchContact()
 	catch(err)
 	{
 		document.getElementById("searchContactResult").innerHTML = err.message;
-
-		// if no contacts were returned from a search, clear the search table
-		if (err.message == "No Records Found") {
-			var table = document.getElementById("searchTableBody");
-			if (table != null)
-			{
-				// remove previous table body if it exists
-				table.remove();
-			}
-		}
 	}
 }	
 
